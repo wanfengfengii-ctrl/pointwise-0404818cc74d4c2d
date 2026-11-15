@@ -4,8 +4,8 @@
   "setup": [],
   "verify": [
     "python3",
-    "coverage_observe.py",
-    "check"
+    "reviewcheck.py",
+    "verify"
   ],
   "demo": [
     "python3",
