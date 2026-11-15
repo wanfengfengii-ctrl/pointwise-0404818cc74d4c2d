@@ -1,0 +1,23 @@
+{
+  "probes":["l","b"],
+  "scenarios":[
+    {"key":"overlap","transactions":[
+      {"seq":1,"request":"seed","changes":[{"side":"L","id":"l","rev":1,"start":0,"end":10,"value":{},"deleted":false},{"side":"L","id":"b","rev":1,"start":100,"end":104,"value":{},"deleted":false},{"side":"R","id":"r1","rev":1,"start":0,"end":7,"value":{},"deleted":false},{"side":"R","id":"r2","rev":1,"start":3,"end":10,"value":{},"deleted":false}],"expected":[[10,10,[1,1]],[0,4,[0,1]]]},
+      {"seq":2,"request":"drop-one","changes":[{"side":"R","id":"r1","rev":2,"start":0,"end":7,"value":{},"deleted":true}],"expected":[[7,10,[7,10]],[0,4,[0,1]]]},
+      {"seq":3,"request":"drop-last","changes":[{"side":"R","id":"r2","rev":2,"start":3,"end":10,"value":{},"deleted":true}],"expected":[[0,10,[0,1]],[0,4,[0,1]]]},
+      {"seq":4,"request":"touch","changes":[{"side":"R","id":"r1","rev":3,"start":10,"end":12,"value":{},"deleted":false}],"expected":[[0,10,[0,1]],[0,4,[0,1]]]},
+      {"seq":5,"request":"revive","changes":[{"side":"R","id":"r2","rev":3,"start":3,"end":10,"value":{},"deleted":false}],"expected":[[7,10,[7,10]],[0,4,[0,1]]]},
+      {"seq":6,"request":"stale","changes":[{"side":"R","id":"r1","rev":2,"start":0,"end":7,"value":{},"deleted":true}],"expected":[[7,10,[7,10]],[0,4,[0,1]]]},
+      {"seq":7,"request":"left-drop","changes":[{"side":"L","id":"l","rev":2,"start":0,"end":10,"value":{},"deleted":true}],"expected":[[null,null,null],[0,4,[0,1]]]},
+      {"seq":8,"request":"left-back","changes":[{"side":"L","id":"l","rev":3,"start":0,"end":10,"value":{},"deleted":false}],"expected":[[7,10,[7,10]],[0,4,[0,1]]]}
+    ]},
+    {"key":"denominator","transactions":[
+      {"seq":1,"request":"seed","changes":[{"side":"L","id":"l","rev":1,"start":0,"end":10,"value":{},"deleted":false},{"side":"L","id":"b","rev":1,"start":100,"end":104,"value":{},"deleted":false},{"side":"R","id":"r","rev":1,"start":0,"end":10,"value":{},"deleted":false}],"expected":[[10,10,[1,1]],[0,4,[0,1]]]},
+      {"seq":2,"request":"expand","changes":[{"side":"L","id":"l","rev":2,"start":-5,"end":10,"value":{},"deleted":false}],"expected":[[10,15,[2,3]],[0,4,[0,1]]]}
+    ]},
+    {"key":"joint","transactions":[
+      {"seq":1,"request":"seed","changes":[{"side":"L","id":"l","rev":1,"start":0,"end":10,"value":{},"deleted":false},{"side":"L","id":"b","rev":1,"start":100,"end":104,"value":{},"deleted":false},{"side":"R","id":"r","rev":1,"start":0,"end":10,"value":{},"deleted":false}],"expected":[[10,10,[1,1]],[0,4,[0,1]]]},
+      {"seq":2,"request":"both-move","changes":[{"side":"L","id":"l","rev":2,"start":20,"end":30,"value":{},"deleted":false},{"side":"R","id":"r","rev":2,"start":25,"end":35,"value":{},"deleted":false}],"expected":[[5,10,[1,2]],[0,4,[0,1]]]}
+    ]}
+  ]
+}
